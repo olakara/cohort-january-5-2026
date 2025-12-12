@@ -167,3 +167,6 @@ Thumbs.db
 
 # Claude
 .claude/settings.local.json
+
+# Node modules in checkpoints
+checkpoints/**/node_modules/

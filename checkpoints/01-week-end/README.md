@@ -1,12 +1,6 @@
-# Budget Tracker
+# Budget Tracker - Workshop Template
 
-> **This is the companion repository for the [AI-Powered .NET](https://aipowereddotnet.school/) cohort** — a 7-week hands-on program where .NET developers learn to ship AI features in production.
-
-A full-stack budget tracking application built with ASP.NET Core 10 and React. Throughout the cohort, you'll extend this foundation with AI-powered features: CSV import with intelligent parsing, transaction auto-categorization, and natural language queries using RAG.
-
-**Built by [Gui Ferreira](https://github.com/gsferreira)** — Microsoft MVP, .NET educator, and Dometrain author.
-
-> **Note**: This repository contains example credentials (database passwords, API keys) for demo purposes only. These are intentionally simple values for local development. Never use these in production.
+A baseline template for a budget tracking application built with ASP.NET Core 10 Web API and React with TypeScript. This template provides essential user authentication and a foundation for building budget tracking features.
 
 ## 🏗️ Architecture Overview
 
@@ -61,7 +55,7 @@ Before you begin, ensure you have the following tools installed:
 
 ```bash
 git clone <repository-url>
-cd cohort-january-5-2026
+cd ai-budget-tracker-workshop
 ```
 
 ### 2. Environment Setup
@@ -289,7 +283,7 @@ dotnet ef database update
 ## 📁 Project Structure
 
 ```
-cohort-january-5-2026/
+ai-budget-tracker-workshop/
 ├── src/
 │   ├── BudgetTracker.Api/              # ASP.NET Core Web API
 │   │   ├── Auth/                       # Authentication endpoints and models
@@ -375,17 +369,3 @@ The API supports two authentication methods:
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [Entity Framework Core Documentation](https://docs.microsoft.com/en-us/ef/core/)
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/)
-
----
-
-## 🎓 Learn to Build This
-
-This repository is part of the **AI-Powered .NET** cohort — a 7-week program for .NET developers ready to ship AI features.
-
-**What you'll learn:**
-- AI-assisted development practices
-- LLM fundamentals and Azure AI integration
-- Building RAG systems for natural language queries
-- Agentic workflows with tool calling
-
-**[Join the next cohort →](https://aipowereddotnet.school/)**
