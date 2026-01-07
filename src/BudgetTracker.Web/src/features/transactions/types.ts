@@ -29,5 +29,7 @@ export interface GetTransactionsParams {
 export interface ImportResult {
   success: boolean;
   message: string;
-  importedCount?: number;
+  importedCount: number;
+  failedCount: number;
+  errors: string[];
 }
