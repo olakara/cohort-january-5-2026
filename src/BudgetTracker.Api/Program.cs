@@ -7,6 +7,7 @@ using BudgetTracker.Api.Infrastructure;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Options;
 using Azure.AI.OpenAI;
+using BudgetTracker.Api.Features.Transactions.Import.Enhancement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +67,7 @@ builder.Services.AddDbContext<BudgetTrackerContext>(options =>
 
 // Add CSV Import Service
 builder.Services.AddScoped<CsvImporter>();
+builder.Services.AddScoped<ITransactionEnhancer, TransactionEnhancer>();
 
 // Add Auth with multiple schemes
 builder.Services.AddAuthorization(options =>
