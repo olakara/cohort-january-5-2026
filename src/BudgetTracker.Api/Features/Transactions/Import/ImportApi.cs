@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Security.Cryptography;
+using BudgetTracker.Api.Features.Transactions.Import.Enhancement;
 
 namespace BudgetTracker.Api.Features.Transactions.Import;
 
@@ -25,8 +26,12 @@ public static class ImportApi
     }
 
     private static async Task<Results<Ok<ImportResult>, BadRequest<string>>> ImportAsync(
-        IFormFile file, [FromForm] string account,
-        CsvImporter csvImporter, BudgetTrackerContext context, ClaimsPrincipal claimsPrincipal)
+        IFormFile file,
+        [FromForm] string account,
+        CsvImporter csvImporter,
+        ITransactionEnhancer enhancer,
+        BudgetTrackerContext context,
+        ClaimsPrincipal claimsPrincipal)
     {
         var validationResult = ValidateFileInput(file, account);
         if (validationResult != null)
@@ -37,14 +42,51 @@ public static class ImportApi
         try
         {
             var userId = claimsPrincipal.GetUserId();
+            var sessionHash = GenerateSessionHash(file.FileName, DateTime.UtcNow);
 
             using var stream = file.OpenReadStream();
             var (result, transactions) = await csvImporter.ParseCsvAsync(stream, file.FileName, userId, account);
 
             if (transactions.Any())
             {
+                // Extract descriptions for AI enhancement
+                var descriptions = transactions.Select(t => t.Description).ToList();
+
+                // Enhance descriptions with AI (includes categories)
+                var enhancements = await enhancer.EnhanceDescriptionsAsync(
+                    descriptions, account, userId, sessionHash);
+
+                // Create enhancement results for preview
+                var enhancementResults = new List<TransactionEnhancementResult>();
+
+                for (var i = 0; i < transactions.Count; i++)
+                {
+                    var transaction = transactions[i];
+                    var enhancement = enhancements.FirstOrDefault(e =>
+                        e.OriginalDescription == transaction.Description) ?? enhancements[i];
+
+                    // Set session hash for tracking
+                    transaction.ImportSessionHash = sessionHash;
+
+                    enhancementResults.Add(new TransactionEnhancementResult
+                    {
+                        TransactionId = transaction.Id,
+                        ImportSessionHash = sessionHash,
+                        TransactionIndex = i,
+                        OriginalDescription = enhancement.OriginalDescription,
+                        EnhancedDescription = enhancement.EnhancedDescription,
+                        SuggestedCategory = enhancement.SuggestedCategory,
+                        ConfidenceScore = enhancement.ConfidenceScore
+                    });
+                }
+
+                // Save transactions with original descriptions
+                // (enhancements applied later via enhance endpoint)
                 await context.Transactions.AddRangeAsync(transactions);
                 await context.SaveChangesAsync();
+
+                result.ImportSessionHash = sessionHash;
+                result.Enhancements = enhancementResults;
             }
 
             return TypedResults.Ok(result);

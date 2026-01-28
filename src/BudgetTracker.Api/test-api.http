@@ -24,8 +24,43 @@ X-API-Key: bt_dev_key_admin
 Content-Type: application/json
 
 {
-  "importSessionHash": "",
-  "enhancements": [],
+  "importSessionHash": "7B4BF4BF00E6",
+  "enhancements": [{
+      "transactionId": "0eded130-d9da-45fe-84c6-cec9c47bfade",
+      "importSessionHash": "7B4BF4BF00E6",
+      "transactionIndex": 0,
+      "originalDescription": "AMZN",
+      "enhancedDescription": "Amazon Purchase",
+      "suggestedCategory": "Shopping",
+      "confidenceScore": 0.85
+    },
+    {
+      "transactionId": "ee4e4b4d-545c-44ad-8ac5-42080f8c0a29",
+      "importSessionHash": "7B4BF4BF00E6",
+      "transactionIndex": 1,
+      "originalDescription": "STARBUCKS COFFEE #1234",
+      "enhancedDescription": "Starbucks Coffee",
+      "suggestedCategory": "Food & Drink",
+      "confidenceScore": 0.95
+    },
+    {
+      "transactionId": "5e71ac6c-c465-420c-93f1-4acbe6ecf573",
+      "importSessionHash": "7B4BF4BF00E6",
+      "transactionIndex": 2,
+      "originalDescription": "DD VODAFONE PORTU 222111000",
+      "enhancedDescription": "Vodafone Portugal - Direct Debit",
+      "suggestedCategory": "Utilities",
+      "confidenceScore": 0.9
+    },
+    {
+      "transactionId": "3ad36241-1366-48e3-9a6f-f7abea5f15ea",
+      "importSessionHash": "7B4BF4BF00E6",
+      "transactionIndex": 3,
+      "originalDescription": "NFLX Subscription",
+      "enhancedDescription": "Netflix Subscription",
+      "suggestedCategory": "Subscriptions",
+      "confidenceScore": 0.9
+    }],
   "minConfidenceScore": 0.5,
   "applyEnhancements": true
 }
